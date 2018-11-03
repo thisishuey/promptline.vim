@@ -14,24 +14,33 @@ endfun
 
 fun! promptline#themes#load_airline_theme(...)
   let mode = get(a:, 1, 'normal')
+  let alt_mode = get(a:, 2, 'insert')
 
   if !has_key(g:, 'airline_theme') || !has_key(g:, 'airline#themes#' . g:airline_theme . '#palette')
     throw "promptline: Can't load theme from airline. Is vim-airline loaded?"
   endif
 
   let mode_palette = g:airline#themes#{g:airline_theme}#palette[mode]
-  return promptline#themes#create_theme_from_airline(mode_palette)
+  let alt_mode_palette = g:airline#themes#{g:airline_theme}#palette[alt_mode]
+  return promptline#themes#create_theme_from_airline(mode_palette, alt_mode_palette)
 endfun
 
-fun! promptline#themes#create_theme_from_airline(mode_palette)
+fun! promptline#themes#create_theme_from_airline(mode_palette, alt_mode_palette)
   return {
-        \'a'    : a:mode_palette.airline_a[2:4],
-        \'b'    : a:mode_palette.airline_b[2:4],
-        \'c'    : a:mode_palette.airline_c[2:4],
-        \'x'    : a:mode_palette.airline_x[2:4],
-        \'y'    : a:mode_palette.airline_y[2:4],
-        \'z'    : a:mode_palette.airline_z[2:4],
-        \'warn' : a:mode_palette.airline_warning[2:4]}
+    \'a': a:mode_palette.airline_a[2:4],
+    \'b': a:mode_palette.airline_b[2:4],
+    \'c': a:mode_palette.airline_c[2:4],
+    \'x': a:mode_palette.airline_x[2:4],
+    \'y': a:mode_palette.airline_y[2:4],
+    \'z': a:mode_palette.airline_z[2:4],
+    \'warn': a:mode_palette.airline_warning[2:4],
+    \'alt_a': a:alt_mode_palette.airline_a[2:4],
+    \'alt_b': a:alt_mode_palette.airline_b[2:4],
+    \'alt_c': a:alt_mode_palette.airline_c[2:4],
+    \'alt_x': a:alt_mode_palette.airline_x[2:4],
+    \'alt_y': a:alt_mode_palette.airline_y[2:4],
+    \'alt_z': a:alt_mode_palette.airline_z[2:4],
+    \'alt_warn': a:alt_mode_palette.airline_warning[2:4]}
 endfun
 
 fun! promptline#themes#load_stock_theme(theme_name) abort

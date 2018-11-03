@@ -130,6 +130,13 @@ fun! s:get_color_variables( theme, preset )
     let color_variables += [ '  local ' .section_name. '_fg=' . s:fg(fg) ]
     let color_variables += [ '  local ' .section_name. '_bg=' . s:bg(bg) ]
     let color_variables += [ '  local ' .section_name. '_sep_fg=' . s:fg(bg) ]
+
+    let alt_section_name = 'alt_' .section_name
+    let [fg, bg] = a:theme[alt_section_name][s:FG : s:BG]
+    let color_variables += [ '  local ' .alt_section_name. '_fg=' . s:fg(fg) ]
+    let color_variables += [ '  local ' .alt_section_name. '_bg=' . s:bg(bg) ]
+    let color_variables += [ '  local ' .alt_section_name. '_sep_fg=' . s:fg(bg) ]
+
   endfor
   return color_variables
 endfun

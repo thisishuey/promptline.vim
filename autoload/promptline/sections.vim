@@ -4,7 +4,6 @@ fun! s:get_slice_modifiers(section_name, is_left_section)
     let prefix = '"${'. a:section_name .'_bg}${sep}${'. a:section_name .'_fg}${'. a:section_name .'_bg}${space}"'
     let empty_prefix = '"${'. a:section_name .'_fg}${'. a:section_name .'_bg}${space}"'
     let suffix = '"$space${' . a:section_name . '_sep_fg}"'
-
   else
     let prefix = '"${'. a:section_name .'_sep_fg}${rsep}${'. a:section_name .'_fg}${'. a:section_name .'_bg}${space}"'
     let empty_prefix = '""'
@@ -68,10 +67,15 @@ fun! s:make_function( function_name, preset, section_names, is_left )
 
   for section_name in a:section_names
     let [ slice_prefix, slice_empty_prefix, slice_middle, slice_suffix ] = s:get_slice_modifiers(section_name, a:is_left)
+    let [ alt_slice_prefix, alt_slice_empty_prefix, alt_slice_middle, alt_slice_suffix ] = s:get_slice_modifiers('alt_' . section_name, a:is_left)
     let func_body += [
           \'',
           \'  # section "' . section_name . '" header',
-          \'  slice_prefix=' . slice_prefix  . ' slice_suffix=' . slice_suffix . ' slice_joiner=' . slice_middle . ' slice_empty_prefix=' . slice_empty_prefix]
+          \'  if [ $vi_mode = $vi_mode_cmd ]; then',
+          \'    slice_prefix=' . slice_prefix  . ' slice_suffix=' . slice_suffix . ' slice_joiner=' . slice_middle . ' slice_empty_prefix=' . slice_empty_prefix,
+          \'  else',
+          \'    slice_prefix=' . alt_slice_prefix  . ' slice_suffix=' . alt_slice_suffix . ' slice_joiner=' . alt_slice_middle . ' slice_empty_prefix=' . alt_slice_empty_prefix,
+          \'  fi']
 
     " only left sections should check $is_prompt_empty
     if a:is_left
