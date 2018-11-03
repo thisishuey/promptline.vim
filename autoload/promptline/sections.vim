@@ -71,10 +71,10 @@ fun! s:make_function( function_name, preset, section_names, is_left )
     let func_body += [
           \'',
           \'  # section "' . section_name . '" header',
-          \'  if [ $vi_mode = $vi_mode_cmd ]; then',
-          \'    slice_prefix=' . slice_prefix  . ' slice_suffix=' . slice_suffix . ' slice_joiner=' . slice_middle . ' slice_empty_prefix=' . slice_empty_prefix,
-          \'  else',
+          \'  if [ $vi_mode = $vi_mode_ins ]; then',
           \'    slice_prefix=' . alt_slice_prefix  . ' slice_suffix=' . alt_slice_suffix . ' slice_joiner=' . alt_slice_middle . ' slice_empty_prefix=' . alt_slice_empty_prefix,
+          \'  else',
+          \'    slice_prefix=' . slice_prefix  . ' slice_suffix=' . slice_suffix . ' slice_joiner=' . slice_middle . ' slice_empty_prefix=' . slice_empty_prefix,
           \'  fi']
 
     " only left sections should check $is_prompt_empty
